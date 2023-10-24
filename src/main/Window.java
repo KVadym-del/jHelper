@@ -172,7 +172,7 @@ public class Window implements WindowInterface {
     @Override
     public void onClickButtonEvent(String ButtonName, WindowInterface.ButtonClickInterface buttonClickInterface)
     {
-        getComponentB(ButtonName).addActionListener(e -> buttonClickInterface.event());
+        getComponent(ButtonName, JButton.class).addActionListener(e -> buttonClickInterface.event());
     }
 
     @Override @Deprecated
@@ -183,40 +183,15 @@ public class Window implements WindowInterface {
     }
 
     @Override
-    public JButton getComponentB(String Name) {
-        if (components.get(Name) instanceof JButton)
-            return (JButton) components.get(Name);
+    public <T> T getComponent(String Name, Class<T> type) {
+        if (components.get(Name) != null)
+            return type.cast(components.get(Name));
         else {
             frame.setVisible(false);
-            JOptionPane.showMessageDialog(new JFrame(), "Component with this name (" + Name + ") is not a button or does not exist", "Dialog",
+            JOptionPane.showMessageDialog(new JFrame(), "Component with this name (" + Name + ") is not a JComponent or does not exist", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             frame.dispose();
-        }
-        return null;
-    }
-
-    @Override
-    public JLabel getComponentL(String Name) {
-        if (components.get(Name) instanceof JLabel)
-            return (JLabel) components.get(Name);
-        else {
-            frame.setVisible(false);
-            JOptionPane.showMessageDialog(new JFrame(), "Component with this name (" + Name + ") is not a label or does not exist", "Dialog",
-                    JOptionPane.ERROR_MESSAGE);
-            frame.dispose();
-        }
-        return null;
-    }
-
-    @Override
-    public JTextField getComponentTF(String Name) {
-        if (components.get(Name) instanceof JTextField)
-            return (JTextField) components.get(Name);
-        else {
-            frame.setVisible(false);
-            JOptionPane.showMessageDialog(new JFrame(), "Component with this name (" + Name + ") is not a text field or does not exist", "Dialog",
-                    JOptionPane.ERROR_MESSAGE);
-            frame.dispose();
+            type.cast(components.get(Name));
         }
         return null;
     }

@@ -14,9 +14,7 @@ public interface WindowInterface {
 
     void newLine();
 
-    JButton getComponentB(String Name);
-    JLabel getComponentL(String Name);
-    JTextField getComponentTF(String Name);
+    <T> T getComponent(String Name, Class<T> type);
 
     void setVisibility();
 
