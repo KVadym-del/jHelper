@@ -11,9 +11,9 @@ public class Test {
         Window window = new Window();
 
         window.createButton("My button1");
-        window.createButton("My button2");
+        window.createButton("My button1");
         window.createLabel("Hello");
-        window.createTextBox("My text Box");
+        window.createTextField("My text Box");
 
 
         window.setVisibility();

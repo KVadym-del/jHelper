@@ -105,7 +105,7 @@ public class Window implements WindowInterface {
     }
 
     @Override
-    public void createTextBox(String Name)
+    public void createTextField(String Name)
     {
         nameCheck(Name, (String name) -> {
             JTextField textField = new JTextField(Name);
@@ -198,6 +198,7 @@ public class Window implements WindowInterface {
             JOptionPane.showMessageDialog(new JFrame(), "Component with this name already exists", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             frame.dispose();
+            System.exit(0);
         } else {
             copyVerifyInterface.event(name);
         }
