@@ -135,7 +135,7 @@ public class Window implements WindowInterface {
     }
 
     @Override
-    public void createTextBox(String Name, int X, int Y, int Width, int Height) {
+    public void createTextField(String Name, int X, int Y, int Width, int Height) {
         nameCheck(Name, (String name) -> {
             JTextField textField = new JTextField(Name);
             textField.setBounds(X, Y, Width, Height);

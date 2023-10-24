@@ -8,7 +8,7 @@ public interface WindowInterface {
     void createLabel(String Name);
     void createLabel(String Name, int X, int Y, int Width, int Height);
     void createTextField(String Name);
-    void createTextBox(String Name, int X, int Y, int Width, int Height);
+    void createTextField(String Name, int X, int Y, int Width, int Height);
     void onClickButtonEvent(String ButtonName, ButtonClickInterface buttonClickInterface);
 
     void newLine();
