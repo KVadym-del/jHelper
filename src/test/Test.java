@@ -13,6 +13,7 @@ public class Test {
         window.createButton("My button1");
         window.createButton("My button2");
         window.createLabel("Hello");
+        window.createTextBox("My text Box");
 
 
         window.setVisibility();
@@ -22,9 +23,7 @@ public class Test {
         });
 
         window.onClickButtonEvent("My button2", () -> {
-           showMessageDialog(null, "Hello world!2");
+            window.getComponent("Hello", JLabel.class).setText(window.getComponent("My text Box", JTextField.class).getText());
         });
-
-        window.getComponent("Hello", JLabel.class).setText("Hello new");
     }
 }

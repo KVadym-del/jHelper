@@ -40,9 +40,7 @@ public class Window implements WindowInterface {
     @Override
     public void createButton(String Name)
     {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JButton button = new JButton(Name);
             button.setBounds(futureComponentX, futureComponentY, 120, 50);
             if ((futureComponentX + 160) >= frame.getSize().width) {
@@ -56,15 +54,13 @@ public class Window implements WindowInterface {
             frame.add(button);
 
             components.put(Name, button);
-        }
+        });
     }
 
     @Override
     public void createButton(String Name, int X, int Y, int Width, int Height)
     {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JButton button = new JButton(Name);
             button.setBounds(X, Y, Width, Height);
             button.setVisible(false);
@@ -72,15 +68,13 @@ public class Window implements WindowInterface {
             frame.add(button);
 
             components.put(Name, button);
-        }
+        });
     }
 
     @Override
     public void createLabel(String Name)
     {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JLabel label = new JLabel(Name);
             label.setBounds(futureComponentX, futureComponentY, 100, 50);
             if ((futureComponentX + 140) >= frame.getSize().width) {
@@ -94,14 +88,12 @@ public class Window implements WindowInterface {
             frame.add(label);
 
             components.put(Name, label);
-        }
+        });
     }
 
     @Override
     public void createLabel(String Name, int X, int Y, int Width, int Height) {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JLabel label = new JLabel(Name);
             label.setBounds(X, Y, Width, Height);
             label.setVisible(false);
@@ -109,15 +101,13 @@ public class Window implements WindowInterface {
             frame.add(label);
 
             components.put(Name, label);
-        }
+        });
     }
 
     @Override
     public void createTextBox(String Name)
     {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JTextField textField = new JTextField(Name);
             textField.setBounds(futureComponentX, futureComponentY, 200, 150);
             if ((futureComponentX + 240) >= frame.getSize().width) {
@@ -141,14 +131,12 @@ public class Window implements WindowInterface {
             frame.add(textField);
 
             components.put(Name, textField);
-        }
+        });
     }
 
     @Override
     public void createTextBox(String Name, int X, int Y, int Width, int Height) {
-        if (components.computeIfPresent(Name, (k, v) -> v) != null) {
-            showMessageDialog(null, "Component with this name already exists");
-        } else {
+        nameCheck(Name, (String name) -> {
             JTextField textField = new JTextField(Name);
             textField.setBounds(X, Y, Width, Height);
             textField.addFocusListener(new FocusListener() {
@@ -166,7 +154,7 @@ public class Window implements WindowInterface {
             frame.add(textField);
 
             components.put(Name, textField);
-        }
+        });
     }
 
     @Override
@@ -191,7 +179,6 @@ public class Window implements WindowInterface {
             JOptionPane.showMessageDialog(new JFrame(), "Component with this name (" + Name + ") is not a JComponent or does not exist", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             frame.dispose();
-            type.cast(components.get(Name));
         }
         return null;
     }
@@ -201,6 +188,18 @@ public class Window implements WindowInterface {
     {
         for (Map.Entry<String, JComponent> entry : components.entrySet()) {
             entry.getValue().setVisible(true);
+        }
+    }
+
+    @Override
+    public void nameCheck(String name, CopyVerifyInterface copyVerifyInterface) {
+        if (components.computeIfPresent(name, (k, v) -> v) != null) {
+            frame.setVisible(false);
+            JOptionPane.showMessageDialog(new JFrame(), "Component with this name already exists", "Dialog",
+                    JOptionPane.ERROR_MESSAGE);
+            frame.dispose();
+        } else {
+            copyVerifyInterface.event(name);
         }
     }
 
