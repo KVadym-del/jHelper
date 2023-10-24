@@ -36,6 +36,6 @@ To do it what you need to do is just call the function **onClickButtonEvent** an
 
 # How to get the component object
 To do this, you just need to call the **getComponent** function and add the name of the component(Button) and the class of the component from the swing library as arguments, for example:
-```javas
+```java
 window.getComponent("My Label", JLabel.class).setText("My new Label");
 ```
