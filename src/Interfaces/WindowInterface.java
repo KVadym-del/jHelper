@@ -1,14 +1,17 @@
-package interfaces;
-
-import javax.swing.*;
+package Interfaces;
 
 public interface WindowInterface {
     void createButton(String Name);
     void createButton(String Name, int X, int Y, int Width, int Height);
+
     void createLabel(String Name);
     void createLabel(String Name, int X, int Y, int Width, int Height);
+
     void createTextField(String Name);
     void createTextField(String Name, int X, int Y, int Width, int Height);
+
+    void createCheckBox(String Name);
+
     void onClickButtonEvent(String ButtonName, ButtonClickInterface buttonClickInterface);
 
     void newLine();

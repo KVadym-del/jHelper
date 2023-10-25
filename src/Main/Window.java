@@ -1,14 +1,18 @@
-package main;
+package Main;
 
-import interfaces.WindowInterface;
+import Interfaces.WindowInterface;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -42,8 +46,10 @@ public class Window implements WindowInterface {
     {
         nameCheck(Name, (String name) -> {
             JButton button = new JButton(Name);
+
+            rectangle = frame.getBounds();
             button.setBounds(futureComponentX, futureComponentY, 120, 50);
-            if ((futureComponentX + 160) >= frame.getSize().width) {
+            if ((futureComponentX + 160) >= rectangle.width) {
                 futureComponentY += (50 + 10);
                 futureComponentX = 30;
             } else {
@@ -76,8 +82,13 @@ public class Window implements WindowInterface {
     {
         nameCheck(Name, (String name) -> {
             JLabel label = new JLabel(Name);
+            FontMetrics metrics = label.getFontMetrics(label.getFont());
+            int width = metrics.stringWidth(label.getText());
+            int height = metrics.getHeight();
+
             label.setBounds(futureComponentX, futureComponentY, 100, 50);
-            if ((futureComponentX + 140) >= frame.getSize().width) {
+            rectangle = frame.getBounds();
+            if ((futureComponentX + 140) >= rectangle.width) {
                 futureComponentY += (50 + 10);
                 futureComponentX = 30;
             } else {
@@ -110,7 +121,8 @@ public class Window implements WindowInterface {
         nameCheck(Name, (String name) -> {
             JTextField textField = new JTextField(Name);
             textField.setBounds(futureComponentX, futureComponentY, 200, 150);
-            if ((futureComponentX + 240) >= frame.getSize().width) {
+            rectangle = frame.getBounds();
+            if ((futureComponentX + 240) >= rectangle.width) {
                 futureComponentY += (150 + 10);
                 futureComponentX = 30;
             } else {
@@ -158,6 +170,26 @@ public class Window implements WindowInterface {
     }
 
     @Override
+    public void createCheckBox(String Name) {
+        nameCheck(Name, (String name) -> {
+            JCheckBox checkBox = new JCheckBox(Name);
+            checkBox.setBounds(futureComponentX, futureComponentY, 120, 50);
+            rectangle = frame.getBounds();
+            if ((futureComponentX + 140 + 30) >= rectangle.width) {
+                futureComponentY += (50 + 10);
+                futureComponentX = 30;
+            } else {
+                futureComponentX += 140;
+            }
+            checkBox.setVisible(false);
+
+            frame.add(checkBox);
+
+            components.put(Name, checkBox);
+        });
+    }
+
+    @Override
     public void onClickButtonEvent(String ButtonName, WindowInterface.ButtonClickInterface buttonClickInterface)
     {
         getComponent(ButtonName, JButton.class).addActionListener(e -> buttonClickInterface.event());
@@ -186,6 +218,7 @@ public class Window implements WindowInterface {
     @Override
     public void setVisibility()
     {
+        frame.repaint();
         for (Map.Entry<String, JComponent> entry : components.entrySet()) {
             entry.getValue().setVisible(true);
         }
@@ -206,9 +239,9 @@ public class Window implements WindowInterface {
 
 
     private final JFrame frame;
+    private Rectangle rectangle;
     private static Map<String, JComponent> components;
 
     private int futureComponentX = 30;
     private int futureComponentY = 30;
-    private final int lastHighestInARow = 0;
 }
