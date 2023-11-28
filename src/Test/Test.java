@@ -12,8 +12,11 @@ public class Test {
         window.createLabel("My Label");
         window.createTextField("My text Box");
         window.createCheckBox("My check box");
+        //window.createPanel("My panel", 0, 0); TODO: Fix panel
 
-        window.setVisibility();
+        //window.addComponentToPanel("My panel", "My button1"); TODO: Fix panel
+
+        window.setVisibility(true);
 
 
         window.onClickButtonEvent("My button1", () -> {

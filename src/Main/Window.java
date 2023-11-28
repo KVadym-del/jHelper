@@ -8,10 +8,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -60,6 +56,7 @@ public class Window implements WindowInterface {
             frame.add(button);
 
             components.put(Name, button);
+            button.setEnabled(false);
         });
     }
 
@@ -74,6 +71,7 @@ public class Window implements WindowInterface {
             frame.add(button);
 
             components.put(Name, button);
+            button.setEnabled(false);
         });
     }
 
@@ -99,6 +97,7 @@ public class Window implements WindowInterface {
             frame.add(label);
 
             components.put(Name, label);
+            label.setEnabled(false);
         });
     }
 
@@ -112,6 +111,7 @@ public class Window implements WindowInterface {
             frame.add(label);
 
             components.put(Name, label);
+            label.setEnabled(false);
         });
     }
 
@@ -143,6 +143,7 @@ public class Window implements WindowInterface {
             frame.add(textField);
 
             components.put(Name, textField);
+            textField.setEnabled(false);
         });
     }
 
@@ -166,6 +167,7 @@ public class Window implements WindowInterface {
             frame.add(textField);
 
             components.put(Name, textField);
+            textField.setEnabled(false);
         });
     }
 
@@ -186,6 +188,20 @@ public class Window implements WindowInterface {
             frame.add(checkBox);
 
             components.put(Name, checkBox);
+            checkBox.setEnabled(false);
+        });
+    }
+
+    @Override
+    public void createPanel(String Name, int X, int Y) {
+        nameCheck(Name, (String name) -> {
+            JPanel checkPanel = new JPanel(new BorderLayout());
+            checkPanel.setLocation(X, Y);
+            checkPanel.setLayout(new BoxLayout(checkPanel, BoxLayout.Y_AXIS));
+            checkPanel.setVisible(false);
+
+            components.put(Name, checkPanel);
+            checkPanel.setEnabled(false);
         });
     }
 
@@ -193,6 +209,12 @@ public class Window implements WindowInterface {
     public void onClickButtonEvent(String ButtonName, WindowInterface.ButtonClickInterface buttonClickInterface)
     {
         getComponent(ButtonName, JButton.class).addActionListener(e -> buttonClickInterface.event());
+    }
+
+    @Override
+    public void addComponentToPanel(String PanelName, String ComponentName) {
+        getComponent(PanelName, JPanel.class).add(getComponent(ComponentName, JComponent.class));
+        frame.add(getComponent(PanelName, JPanel.class));
     }
 
     @Override @Deprecated
@@ -216,12 +238,19 @@ public class Window implements WindowInterface {
     }
 
     @Override
-    public void setVisibility()
+    public void setVisibility(Boolean Visibility)
     {
         frame.repaint();
         for (Map.Entry<String, JComponent> entry : components.entrySet()) {
-            entry.getValue().setVisible(true);
+            entry.getValue().setVisible(Visibility);
+            entry.getValue().setEnabled(Visibility);
         }
+    }
+
+    @Override
+    public void setVisibility(String Name, Boolean Visibility) {
+        getComponent(Name, JComponent.class).setVisible(Visibility);
+        getComponent(Name, JComponent.class).setEnabled(Visibility);
     }
 
     @Override
@@ -231,7 +260,7 @@ public class Window implements WindowInterface {
             JOptionPane.showMessageDialog(new JFrame(), "Component with this name already exists", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
             frame.dispose();
-            System.exit(0);
+            System.exit(1);
         } else {
             copyVerifyInterface.event(name);
         }
