@@ -28,7 +28,11 @@ or
 
 the last step is to show the components on window, to do it you need to use:
 ```java
-window.setVisibility();
+window.setVisibility(true);
+```
+or if you whant to be specific you need to use:
+```java
+window.setVisibility(someName ,true);
 ```
 
 # How to add an event after clicking a button
